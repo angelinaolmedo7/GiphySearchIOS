@@ -13,6 +13,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     var network = GifNetwork()
+    var gifs = [Gif]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +33,12 @@ class ViewController: UIViewController {
     - Parameter searchTerm: The string to search gifs of
     */
     func searchGifs(for searchText: String) {
-        network.fetchGifs(searchTerm: searchText)
+        network.fetchGifs(searchTerm: searchText) { gifArray in
+            if gifArray != nil {
+                self.gifs = gifArray!.gifs
+                self.tableView.reloadData()
+            }
+        }
     }
 
 
