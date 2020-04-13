@@ -12,6 +12,7 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
+    var network = GifNetwork()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +26,13 @@ class ViewController: UIViewController {
         searchBar.searchTextField.delegate = self
         searchBar.searchTextField.placeholder = "Whats your favorite gif?"
         searchBar.returnKeyType = .search
+    }
+    /**
+    Fetches gifs based on the search term and populates tableview
+    - Parameter searchTerm: The string to search gifs of
+    */
+    func searchGifs(for searchText: String) {
+        network.fetchGifs(searchTerm: searchText)
     }
 
 
@@ -49,7 +57,7 @@ extension ViewController: UISearchTextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         if textField.text != nil {
-            print(textField.text!)
+            searchGifs(for: textField.text!)
         }
         return true
     }
